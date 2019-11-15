@@ -1,30 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Nav, Navbar, NavItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import "./App.css";
 import Routes from "./Routes";
-
+import { Container } from 'semantic-ui-react';
 
 function App(props) {
   return (
-    <div className="App container">
-      <Navbar fluid collapseOnSelect>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <Link to="/">ยื่นคำร้อง</Link>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav pullRight>
-            <LinkContainer to="/login">
-              <NavItem>Login</NavItem>
-            </LinkContainer>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      <Routes />
+    
+    <div>
+      <style>
+        {`
+      body {
+        background-image : url("bg.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        
+      }
+      
+    }
+    `}
+      </style>
+      <Container >
+        <Routes />
+      </Container >
     </div>
   );
 }

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import "./Login.css";
 import axios from 'axios';
+import { Link } from "react-router-dom";
+import { Button, Form, Grid, Message, Image, Divider, Segment, Icon } from "semantic-ui-react";
 
 
-  
+
 export default function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [auth, setAuth] = useState(false);
+
 
   function validateForm() {
     return username.length > 0 && password.length > 0;
@@ -17,47 +20,88 @@ export default function Login(props) {
     // console.log(username +" "+ password);
     event.preventDefault();
     axios.post('http://localhost:3002/login', {
-      
+
       "UserName": username,
       "PassWord": password
-  
+
     })
-    .then(function (response) {
-      if(response.data.message == "Success") alert(response.data.displayname_th + " เข้าสู่ระบบ")
-      else if(response.data.message=="User or Password Invalid!") alert("Username หรือ Password ไม่ถูกต้อง!")
-      
-      // console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    
+      .then(function (response) {
+        if (response.data.message == "Success") {
+          setAuth(true)
+          setName(response.data.displayname_th)
+        }
+
+        else if (response.data.message == "User or Password Invalid!")
+          setAuth(false)
+
+        // console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   }
 
+
+
   return (
-    <div className="Login">
-      <form onSubmit={handleSubmit}>
-        <FormGroup controlId="username" bsSize="large">
-          <ControlLabel>Username</ControlLabel>
-          <FormControl
-            autoFocus
-            type="username"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
-          <ControlLabel>Password</ControlLabel>
-          <FormControl
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            type="password"
-          />
-        </FormGroup>
-        <Button block bsSize="large" disabled={!validateForm()} type="submit">
-          Login
-        </Button>
-      </form>
-    </div>
+    <div>
+      {auth
+        ?
+        <div>
+          <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+            <Grid.Column style={{ maxWidth: 500 }}>
+              <Segment padded>
+              <Message>
+              <Message.Header></Message.Header>
+              <p>
+                เข้าสู่ระบบด้วย ชื่อ :  
+                {name}
+             </p>
+            </Message>
+                <Button color='orange' fluid size='large' as={Link} to="/user">ดำเนินการต่อ</Button>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </div>
+        : <>
+          <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+            <Grid.Column style={{ maxWidth: 500 }}>
+
+              <Form size='huge' onSubmit={handleSubmit}>
+                <Segment padded>
+                  <Image src='/logo.png' verticalAlign="center" />
+                  <Divider />
+                  <Form.Input
+                    fluid
+                    icon='user'
+                    iconPosition='left'
+                    placeholder=' Username'
+                    value={username}
+                    onChange={e => setUsername(e.target.value)}
+                  />
+                  <Form.Input
+                    fluid
+                    icon='lock'
+                    iconPosition='left'
+                    placeholder=' Password'
+                    type='password'
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                  />
+                  <Divider />
+                  <Button color='orange' fluid size='large' disabled={!validateForm()} type="submit">
+                  <Icon name='sign-in' />
+                    เข้าสู่ระบบ
+              </Button>
+                </Segment>
+              </Form>
+
+            </Grid.Column>
+
+          </Grid >
+        </>
+      }
+    </div >
   );
 }

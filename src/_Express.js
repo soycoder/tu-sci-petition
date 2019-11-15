@@ -10,7 +10,7 @@ console.log("RESTapi TU : Start!");
 app.post('/login', function (req, res) {
     var https = require('https');
     // console.log("req", req.body);
-    // ABC
+    
     var options = {
         'method': 'POST',
         'hostname': 'restapi.tu.ac.th',
