@@ -9,7 +9,7 @@ function App(props) {
       <style>
         {`
       body {
-        background-image : url("bg.jpg");
+        background-image : url("tu_bg.jpg");
         background-repeat: no-repeat;
         background-size: cover;
         

@@ -46,6 +46,15 @@ export default function Login(props) {
 
   return (
     <div>
+      <style>
+        {`
+      div1 {
+        background: rgba(255, 255, 255, 0.3)       
+      }
+      
+    }
+    `}
+      </style>
       {auth
         ?
         <div>
